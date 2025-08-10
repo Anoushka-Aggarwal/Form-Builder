@@ -1,25 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
-
-export interface FormField {
-  id: string;
-  type: 'text' | 'number' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'date';
-  label: string;
-  required: boolean;
-  defaultValue?: string;
-  options?: string[];
-  validations?: {
-    minLength?: number;
-    maxLength?: number;
-    isEmail?: boolean;
-    isPassword?: boolean;
-  };
-  derived?: {
-    parentIds: string[];
-    formula: string;
-  };
-}
-
+import { FormField } from "../types/form";
 
 // Define state shape
 interface FormState {

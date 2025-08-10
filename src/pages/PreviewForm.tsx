@@ -2,8 +2,9 @@ import { Box, Typography, Button } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import FormRenderer from "../components/FormRenderer";
-import { FormField } from "../redux/formSlice";
+import { FormField } from "../types/form";
 import { evaluateDerivedField } from "../components/DerivedFieldLogic";
+import { validateForm } from "../utils/validations";
 
 export default function PreviewForm() {
   const location = useLocation();
@@ -30,37 +31,14 @@ export default function PreviewForm() {
     setValues((prev) => ({ ...prev, [id]: value }));
   };
 
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    form.fields.forEach((field: FormField) => {
-      const val = values[field.id] || "";
-      if (field.required && !val.trim()) {
-        newErrors[field.id] = "This field is required.";
-      }
-      if (field.validations) {
-        if (field.validations.minLength && val.length < field.validations.minLength) {
-          newErrors[field.id] = `Minimum length: ${field.validations.minLength}`;
-        }
-        if (field.validations.maxLength && val.length > field.validations.maxLength) {
-          newErrors[field.id] = `Maximum length: ${field.validations.maxLength}`;
-        }
-        if (field.validations.isEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
-          newErrors[field.id] = "Invalid email address.";
-        }
-        if (field.validations.isPassword && !/^(?=.*\d).{8,}$/.test(val)) {
-          newErrors[field.id] = "Password must be 8+ chars and include a number.";
-        }
-      }
-    });
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = () => {
-    if (validate()) {
+    const newErrors = validateForm(values, form.fields);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
       alert("Form submitted");
     }
   };
+  
 
   if (!form) {
     return (

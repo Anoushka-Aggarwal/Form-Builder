@@ -9,7 +9,7 @@ import {
   Radio,
   FormLabel,
 } from "@mui/material";
-import { FormField } from "../redux/formSlice";
+import { FormField } from "../types/form";
 
 interface Props {
   fields: FormField[];

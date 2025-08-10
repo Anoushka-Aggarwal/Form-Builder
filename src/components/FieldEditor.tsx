@@ -184,14 +184,6 @@ export default function FieldEditor() {
         onChange={(e) => setMaxLength(e.target.value ? Number(e.target.value) : undefined)}
         sx={{ mt: 1 }}
       />
-      <FormControlLabel
-        control={<Switch checked={isEmail} onChange={() => setIsEmail((p) => !p)} />}
-        label="Email format"
-      />
-      <FormControlLabel
-        control={<Switch checked={isPassword} onChange={() => setIsPassword((p) => !p)} />}
-        label="Password rule"
-      />
 
       {/* Options for Select/Radio */}
       {(type === "select" || type === "radio") && (
